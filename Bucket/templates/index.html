@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>S3 Manager</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            margin: 40px;
+            background: #eef2f7;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: auto;
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 15px;
+            margin-bottom: 25px;
+            gap: 15px;
+        }
+
+        .search-bar {
+            flex-grow: 1;
+            padding: 8px 15px;
+            border-radius: 20px;
+            border: 1px solid #ddd;
+            outline: none;
+        }
+
+        .btn-logout {
+            background: #e74c3c;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .file-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            border-bottom: 1px solid #edf2f7;
+        }
+
+        .btn {
+            padding: 8px 12px;
+            border-radius: 4px;
+            text-decoration: none;
+            color: white;
+            font-size: 13px;
+            font-weight: bold;
+        }
+
+        .btn-download {
+            background: #2ecc71;
+        }
+
+        .btn-delete {
+            background: #e74c3c;
+            margin-left: 5px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <h2 style="margin:0;">S3 Bucket: {{ bucket }}</h2>
+            <input type="text" id="searchInput" class="search-bar" placeholder="Filter files...">
+            <a href="/logout" class="btn-logout">Logout</a>
+        </div>
+
+        <form action="/upload" method="post" enctype="multipart/form-data"
+            style="margin-bottom: 30px; padding: 20px; background: #f9f9f9; border-radius: 8px; border: 1px dashed #ccc;">
+            <input type="file" name="file" required>
+            <button type="submit"
+                style="background:#3498db; color:white; border:none; padding:8px 15px; border-radius:4px; cursor:pointer; font-weight:bold;">Upload
+                File</button>
+        </form>
+
+        <div id="fileList">
+            {% for file in files %}
+            <div class="file-item">
+                <span class="file-name">{{ file }}</span>
+                <div>
+                    <a href="{{ url_for('download', filename=file) }}" class="btn btn-download">Download</a>
+                    <a href="{{ url_for('delete', filename=file) }}" class="btn btn-delete"
+                        onclick="return confirm('Delete this file?')">Delete</a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('searchInput').addEventListener('keyup', function () {
+            let filter = this.value.toLowerCase();
+            document.querySelectorAll('.file-item').forEach(item => {
+                let text = item.querySelector('.file-name').textContent.toLowerCase();
+                item.style.display = text.includes(filter) ? '' : 'none';
+            });
+        });
+    </script>
+</body>
+
+</html>
