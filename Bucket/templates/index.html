@@ -19,6 +19,7 @@
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
         }
 
+        /* Header section with the red logout button */
         .header {
             display: flex;
             justify-content: space-between;
@@ -37,14 +38,20 @@
             outline: none;
         }
 
+        /* The Red Logout Button */
         .btn-logout {
             background: #e74c3c;
             color: white;
-            padding: 8px 15px;
+            padding: 8px 18px;
             border-radius: 6px;
             text-decoration: none;
             font-size: 14px;
             font-weight: bold;
+            transition: background 0.3s;
+        }
+
+        .btn-logout:hover {
+            background: #c0392b;
         }
 
         .file-item {
@@ -55,6 +62,12 @@
             border-bottom: 1px solid #edf2f7;
         }
 
+        .file-name {
+            color: #2c3e50;
+            font-weight: 500;
+        }
+
+        /* Action Buttons */
         .btn {
             padding: 8px 12px;
             border-radius: 4px;
@@ -68,9 +81,39 @@
             background: #2ecc71;
         }
 
+        .btn-download:hover {
+            background: #27ae60;
+        }
+
         .btn-delete {
             background: #e74c3c;
             margin-left: 5px;
+        }
+
+        .btn-delete:hover {
+            background: #c0392b;
+        }
+
+        /* Upload area */
+        .upload-section {
+            margin-bottom: 30px;
+            padding: 20px;
+            background: #f9f9f9;
+            border-radius: 8px;
+            border: 1px dashed #ccc;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .btn-upload {
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
         }
     </style>
 </head>
@@ -78,18 +121,18 @@
 <body>
     <div class="container">
         <div class="header">
-            <h2 style="margin:0;">S3 Bucket: {{ bucket }}</h2>
+            <h2 style="margin:0; color: #2c3e50;">S3 Bucket: {{ bucket }}</h2>
             <input type="text" id="searchInput" class="search-bar" placeholder="Filter files...">
             <a href="/logout" class="btn-logout">Logout</a>
         </div>
 
-        <form action="/upload" method="post" enctype="multipart/form-data"
-            style="margin-bottom: 30px; padding: 20px; background: #f9f9f9; border-radius: 8px; border: 1px dashed #ccc;">
-            <input type="file" name="file" required>
-            <button type="submit"
-                style="background:#3498db; color:white; border:none; padding:8px 15px; border-radius:4px; cursor:pointer; font-weight:bold;">Upload
-                File</button>
-        </form>
+        <div class="upload-section">
+            <form action="/upload" method="post" enctype="multipart/form-data"
+                style="display: flex; align-items: center; width: 100%; gap: 10px;">
+                <input type="file" name="file" required style="flex-grow: 1;">
+                <button type="submit" class="btn-upload">Upload File</button>
+            </form>
+        </div>
 
         <div id="fileList">
             {% for file in files %}
@@ -98,7 +141,7 @@
                 <div>
                     <a href="{{ url_for('download', filename=file) }}" class="btn btn-download">Download</a>
                     <a href="{{ url_for('delete', filename=file) }}" class="btn btn-delete"
-                        onclick="return confirm('Delete this file?')">Delete</a>
+                        onclick="return confirm('Permanently delete this file?')">Delete</a>
                 </div>
             </div>
             {% endfor %}

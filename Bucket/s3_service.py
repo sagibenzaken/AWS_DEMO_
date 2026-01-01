@@ -3,6 +3,7 @@ from botocore.config import Config
 
 class S3Service:
     def __init__(self, access_key, secret_key, region):
+        # Force s3v4 and virtual-host addressing for special characters
         s3_config = Config(
             region_name=region,
             signature_version='s3v4',
@@ -16,6 +17,15 @@ class S3Service:
             region_name=region,
             config=s3_config
         )
+
+    def get_actual_region(self, bucket_name):
+        """Verifies where the bucket actually lives."""
+        try:
+            loc = self.client.get_bucket_location(Bucket=bucket_name)['LocationConstraint']
+            # AWS returns None or "US" for us-east-1
+            return loc if loc and loc != "US" else "us-east-1"
+        except Exception:
+            return None
 
     def list_files(self, bucket_name):
         response = self.client.list_objects_v2(Bucket=bucket_name)
