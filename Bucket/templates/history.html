@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Version History</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            padding: 40px;
+        }
+
+        .container {
+            background-color: white;
+            padding: 30px;
+            max-width: 700px;
+            margin: auto;
+            border-radius: 10px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th,
+        td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+
+        .latest {
+            color: green;
+            font-weight: bold;
+            font-size: 11px;
+            border: 1px solid green;
+            padding: 2px 4px;
+            border-radius: 3px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <a href="/" style="font-size: 13px; color: #007bff; text-decoration: none;">&larr; Back</a>
+        <h3>History: {{ filename }}</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Version ID</th>
+                    <th>Date</th>
+                    <th>Size</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for v in versions %}
+                <tr>
+                    <td><code>{{ v.id[:12] }}...</code> {% if v.is_latest %}<span class="latest">LATEST</span>{% endif
+                        %}</td>
+                    <td>{{ v.last_modified.strftime('%Y-%m-%d %H:%M') }}</td>
+                    <td>{{ v.size }} KB</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+
+</html>

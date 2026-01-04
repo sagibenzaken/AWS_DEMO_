@@ -2,66 +2,135 @@
 <html>
 
 <head>
-    <title>S3 Login</title>
+    <title>S3 Manager Login</title>
     <style>
         body {
             font-family: 'Segoe UI', sans-serif;
+            background: #eef2f7;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
-            background: #f0f2f5;
             margin: 0;
         }
 
-        .login-box {
+        .login-card {
             background: white;
-            padding: 30px;
+            padding: 40px;
             border-radius: 12px;
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-            width: 350px;
-        }
-
-        input {
             width: 100%;
-            padding: 12px;
-            margin: 10px 0;
-            border: 1px solid #ddd;
-            border-radius: 6px;
-            box-sizing: border-box;
+            max-width: 450px;
         }
 
-        .rem {
-            display: flex;
-            align-items: center;
-            font-size: 14px;
-            color: #7f8c8d;
+        h2 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 25px;
+        }
+
+        .form-group {
             margin-bottom: 15px;
         }
 
-        button {
+        label {
+            display: block;
+            font-size: 13px;
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #555;
+        }
+
+        input,
+        select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            box-sizing: border-box;
+            font-size: 14px;
+            background: #fff;
+        }
+
+        .btn-login {
             width: 100%;
             padding: 12px;
             background: #3498db;
             color: white;
             border: none;
             border-radius: 6px;
-            cursor: pointer;
             font-weight: bold;
+            cursor: pointer;
+            margin-top: 15px;
+        }
+
+        .btn-login:hover {
+            background: #2980b9;
+        }
+
+        optgroup {
+            font-weight: bold;
+            background: #f8f9fa;
         }
     </style>
 </head>
 
 <body>
-    <div class="login-box">
-        <h2 style="text-align: center; color: #2c3e50;">Connect to S3</h2>
-        <form action="/login" method="post">
-            <input type="text" name="access" placeholder="AWS Access Key" required>
-            <input type="password" name="secret" placeholder="AWS Secret Key" required>
-            <input type="text" name="region" placeholder="Region (e.g., us-east-1)" required>
-            <input type="text" name="bucket" placeholder="Bucket Name" required>
-            <label class="rem"><input type="checkbox" name="remember"> Remember for 30 days</label>
-            <button type="submit">Login</button>
+    <div class="login-card">
+        <h2>AWS S3 Login</h2>
+        <form action="/login" method="POST">
+            <div class="form-group">
+                <label>Access Key ID</label>
+                <input type="text" name="access" placeholder="AKIA..." required>
+            </div>
+            <div class="form-group">
+                <label>Secret Access Key</label>
+                <input type="password" name="secret" placeholder="Secret Key" required>
+            </div>
+            <div class="form-group">
+                <label>Bucket Name</label>
+                <input type="text" name="bucket" placeholder="my-bucket-name" required>
+            </div>
+            <div class="form-group">
+                <label>AWS Region</label>
+                <select name="region" required>
+                    <option value="" disabled selected>Select a region...</option>
+
+                    <optgroup label="North America">
+                        <option value="us-east-1">US East (N. Virginia)</option>
+                        <option value="us-east-2">US East (Ohio)</option>
+                        <option value="us-west-1">US West (N. California)</option>
+                        <option value="us-west-2">US West (Oregon)</option>
+                        <option value="ca-central-1">Canada (Central)</option>
+                    </optgroup>
+
+                    <optgroup label="Europe / Middle East / Africa">
+                        <option value="eu-west-1">Europe (Ireland)</option>
+                        <option value="eu-west-2">Europe (London)</option>
+                        <option value="eu-west-3">Europe (Paris)</option>
+                        <option value="eu-central-1">Europe (Frankfurt)</option>
+                        <option value="eu-south-1">Europe (Milan)</option>
+                        <option value="eu-north-1">Europe (Stockholm)</option>
+                        <option value="me-south-1">Middle East (Bahrain)</option>
+                        <option value="af-south-1">Africa (Cape Town)</option>
+                    </optgroup>
+
+                    <optgroup label="Asia Pacific">
+                        <option value="ap-east-1">Asia Pacific (Hong Kong)</option>
+                        <option value="ap-south-1">Asia Pacific (Mumbai)</option>
+                        <option value="ap-northeast-3">Asia Pacific (Osaka)</option>
+                        <option value="ap-northeast-2">Asia Pacific (Seoul)</option>
+                        <option value="ap-southeast-1">Asia Pacific (Singapore)</option>
+                        <option value="ap-southeast-2">Asia Pacific (Sydney)</option>
+                        <option value="ap-northeast-1">Asia Pacific (Tokyo)</option>
+                    </optgroup>
+
+                    <optgroup label="South America">
+                        <option value="sa-east-1">South America (São Paulo)</option>
+                    </optgroup>
+                </select>
+            </div>
+            <button type="submit" class="btn-login">Connect to S3</button>
         </form>
     </div>
 </body>
